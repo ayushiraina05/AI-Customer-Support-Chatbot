@@ -15,14 +15,19 @@ def home():
 
 @app.route("/get", methods=["POST"])
 def chatbot():
-    user_input = request.form["msg"].lower()
-    response = "Sorry, I didn't understand that."
 
+    user_input = request.form["msg"].lower()
+
+    # 🔹 Fake Real-time API Integration
+    if "order" in user_input:
+        return "Your order #1234 is currently Out for Delivery 🚚"
+
+    if "balance" in user_input:
+        return "Your current account balance is ₹15,000."
+
+    # 🔹 Predefined FAQ Matching
     for key in faq:
         if key in user_input:
-            response = faq[key]
+            return faq[key]
 
-    return response
-
-if __name__ == "__main__":
-    app.run()
+    return "Sorry, I didn't understand that."
