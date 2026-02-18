@@ -2,15 +2,105 @@
 <html>
 <head>
     <title>AI Customer Support Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            width: 400px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .chat-box {
+            height: 400px;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .user-msg {
+            text-align: right;
+            margin: 5px;
+            color: blue;
+        }
+
+        .bot-msg {
+            text-align: left;
+            margin: 5px;
+            color: green;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+        }
+
+        .chat-input button {
+            padding: 8px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+        }
+    </style>
 </head>
 <body>
 
-<h2>AI Customer Support Chatbot</h2>
+<div class="chat-container">
+    <div class="chat-header">AI Customer Support</div>
 
-<form action="/get" method="post">
-    <input type="text" name="msg" placeholder="Type your message here">
-    <button type="submit">Send</button>
-</form>
+    <div class="chat-box" id="chatBox"></div>
+
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+function sendMessage() {
+    let userText = document.getElementById("userInput").value;
+
+    fetch("/get", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "msg=" + userText
+    })
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("chatBox").innerHTML +=
+            "<div class='user-msg'>You: " + userText + "</div>";
+        document.getElementById("chatBox").innerHTML +=
+            "<div class='bot-msg'>Bot: " + data + "</div>";
+
+        document.getElementById("userInput").value = "";
+    });
+}
+</script>
 
 </body>
 </html>
