@@ -31,3 +31,6 @@ def chatbot():
             return faq[key]
 
     return "Sorry, I didn't understand that."
+
+if __name__ == "__main__":
+    app.run()
