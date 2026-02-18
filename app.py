@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -11,17 +11,17 @@ faq = {
 
 @app.route("/")
 def home():
-    return "AI Customer Support Chatbot is running!"
+    return render_template("index.html")
 
 @app.route("/get", methods=["POST"])
 def chatbot():
     user_input = request.form["msg"].lower()
     response = "Sorry, I didn't understand that."
-    
+
     for key in faq:
         if key in user_input:
             response = faq[key]
-    
+
     return response
 
 if __name__ == "__main__":
